@@ -28,7 +28,6 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * An install wizard that allows the users to browse all of the repositories
@@ -207,7 +206,7 @@ public class InstallWizard extends WizardWithLicenses {
 			// Is the update manager installer present?  If so, offer to open it.
 			// In either case, the failure will be reported in this wizard.
 			if (ProvUI.isUpdateManagerInstallerPresent()) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				ProvUI.getDefaultParentShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
 						Shell shell = ProvUI.getDefaultParentShell();
 						MessageDialog dialog = new MessageDialog(shell, ProvUIMessages.Policy_RequiresUpdateManagerTitle, null, ProvUIMessages.Policy_RequiresUpdateManagerMessage, MessageDialog.WARNING, new String[] {ProvUIMessages.LaunchUpdateManagerButton, IDialogConstants.CANCEL_LABEL}, 0);

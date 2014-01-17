@@ -14,7 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Iterator;
 import org.eclipse.core.runtime.*;
-import org.eclipse.equinox.internal.p2.ui.*;
+import org.eclipse.equinox.internal.p2.ui.ProvUI;
+import org.eclipse.equinox.internal.p2.ui.ProvUIMessages;
 import org.eclipse.equinox.internal.p2.ui.dialogs.CopyUtils;
 import org.eclipse.equinox.internal.p2.ui.dialogs.InstalledIUGroup;
 import org.eclipse.equinox.internal.p2.ui.model.ProfileSnapshots;
@@ -146,7 +147,7 @@ public class RevertProfilePage extends InstallationPage implements ICopyable {
 		}
 
 		initializeDialogUnits(parent);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IProvHelpContextIds.REVERT_CONFIGURATION_WIZARD);
+		//		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IProvHelpContextIds.REVERT_CONFIGURATION_WIZARD);
 
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		sashForm.setLayout(new GridLayout());

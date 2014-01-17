@@ -68,6 +68,12 @@ public class ProvUI {
 	 */
 	public static final long SIZE_UNKNOWN = -1L;
 
+	/**
+	 * shell passed from an eclipse e4 application
+	 * 
+	 */
+	private static Shell defaultParentShell;
+
 	private static IUColumnConfig[] columnConfig;
 
 	// These values rely on the command markup in org.eclipse.ui.ide that defines the update commands
@@ -151,7 +157,11 @@ public class ProvUI {
 	 * for a modal dialog. 
 	 */
 	public static Shell getDefaultParentShell() {
-		return PlatformUI.getWorkbench().getModalDialogShellProvider().getShell();
+		return ProvUI.defaultParentShell;
+	}
+
+	public static void setDefaultParentShell(Shell defaultShell) {
+		ProvUI.defaultParentShell = defaultShell;
 	}
 
 	public static void openUpdateManagerInstaller(Event event) {

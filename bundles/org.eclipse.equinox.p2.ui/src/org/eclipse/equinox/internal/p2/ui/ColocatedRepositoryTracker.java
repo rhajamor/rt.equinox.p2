@@ -26,8 +26,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
+//import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 /**
@@ -123,11 +122,11 @@ public class ColocatedRepositoryTracker extends RepositoryTracker {
 		if (code == ProvisionException.REPOSITORY_NOT_FOUND || code == ProvisionException.REPOSITORY_INVALID_LOCATION) {
 			if (!hasNotFoundStatusBeenReported(location)) {
 				addNotFound(location);
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				ProvUI.getDefaultParentShell().getDisplay().asyncExec(new Runnable() {
 					public void run() {
-						IWorkbench workbench = PlatformUI.getWorkbench();
-						if (workbench.isClosing())
-							return;
+						//						IWorkbench workbench = PlatformUI.getWorkbench();
+						//						if (workbench.isClosing())
+						//							return;
 						Shell shell = ProvUI.getDefaultParentShell();
 						if (MessageDialog.openQuestion(shell, ProvUIMessages.ColocatedRepositoryTracker_SiteNotFoundTitle, NLS.bind(ProvUIMessages.ColocatedRepositoryTracker_PromptForSiteLocationEdit, URIUtil.toUnencodedString(location)))) {
 							RepositoryNameAndLocationDialog dialog = new RepositoryNameAndLocationDialog(shell, ui) {

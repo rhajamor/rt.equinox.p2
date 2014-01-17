@@ -11,13 +11,11 @@
 package org.eclipse.equinox.internal.p2.ui.dialogs;
 
 import org.eclipse.equinox.internal.p2.ui.ProvUIMessages;
-import org.eclipse.equinox.internal.p2.ui.actions.PropertyDialogAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.window.SameShellProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
@@ -83,7 +81,8 @@ public class IUDetailsGroup {
 
 		gd = new GridData(SWT.END, SWT.BOTTOM, true, false);
 		gd.horizontalIndent = Dialog.convertHorizontalDLUsToPixels(fontMetrics, IDialogConstants.HORIZONTAL_MARGIN);
-		propLink = createLink(detailsComposite, new PropertyDialogAction(new SameShellProvider(parent.getShell()), selectionProvider), ProvUIMessages.AvailableIUsPage_GotoProperties);
+		//XXX PropertyDialog => PlatformUI/IWorkbench use
+		propLink = createLink(detailsComposite, null/* new PropertyDialogAction(new SameShellProvider(parent.getShell()), selectionProvider)*/, ProvUIMessages.AvailableIUsPage_GotoProperties);
 		propLink.setLayoutData(gd);
 
 		// set the initial state based on selection
@@ -122,8 +121,9 @@ public class IUDetailsGroup {
 				}
 			}
 		});
-		link.setToolTipText(action.getToolTipText());
-		link.setData(LINKACTION, action);
+		//XX change me
+		link.setToolTipText("Open Properties Dialog");
+		//		link.setData(LINKACTION, action);
 		return link;
 	}
 

@@ -12,8 +12,6 @@
 
 package org.eclipse.equinox.internal.p2.ui;
 
-import org.eclipse.equinox.p2.ui.preferences.ProvPropertyPageManager;
-
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.runtime.*;
@@ -29,6 +27,7 @@ import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepositoryManager;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
 import org.eclipse.equinox.p2.ui.Policy;
+import org.eclipse.equinox.p2.ui.preferences.ProvPropertyPageManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.swt.widgets.*;
@@ -78,7 +77,7 @@ public class ProvUI {
 	 * shell passed from an eclipse e4 application
 	 * 
 	 */
-	private static Shell defaultShell;
+	private static Shell defaultParentShell;
 
 	private static IUColumnConfig[] columnConfig;
 
@@ -173,13 +172,13 @@ public class ProvUI {
 	 * for a modal dialog. 
 	 */
 	public static Shell getDefaultParentShell() {
-		if (defaultShell == null)
-			defaultShell = Display.getCurrent().getActiveShell();
-		return ProvUI.defaultShell;
+		if (defaultParentShell == null)
+			defaultParentShell = Display.getCurrent().getActiveShell();
+		return ProvUI.defaultParentShell;
 	}
 
 	public static void setDefaultShell(Shell defaultShell) {
-		ProvUI.defaultShell = defaultShell;
+		ProvUI.defaultParentShell = defaultShell;
 	}
 
 	public static void openUpdateManagerInstaller(Event event) {

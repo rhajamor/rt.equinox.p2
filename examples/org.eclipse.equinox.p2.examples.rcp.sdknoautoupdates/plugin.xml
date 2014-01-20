@@ -78,10 +78,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.equinox.p2.examples.rcp.sdknoautoupdates.application"
-            name="RCP Product">
+            name="RCP Mail Example (No Automatic Updates)">
          <property
                name="aboutText"
-               value="RCP Mail template created by PDE">
+               value="RCP Mail Example (No Automatic Updates)">
          </property>
          <property
                name="windowImages"
@@ -90,6 +90,10 @@
          <property
                name="aboutImage"
                value="product_lg.gif">
+         </property>
+         <property
+               name="appName"
+               value="RCP Mail Example (No Automatic Updates)">
          </property>
       </product>
    </extension>

@@ -20,7 +20,6 @@ import org.eclipse.equinox.internal.provisional.configurator.Configurator;
 import org.eclipse.equinox.p2.operations.ProvisioningJob;
 import org.eclipse.equinox.p2.ui.Policy;
 import org.eclipse.equinox.p2.ui.ProvisioningUI;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.progress.IProgressConstants2;
 import org.eclipse.ui.statushandlers.StatusManager;
@@ -72,23 +71,20 @@ public class ProvisioningOperationRunner {
 		if (suppressRestart)
 			return;
 		if (restartPolicy == Policy.RESTART_POLICY_FORCE) {
-			PlatformUI.getWorkbench().restart();
+			ProvUI.getE4Workbench().restart();
 			return;
 		}
 		if (restartPolicy == Policy.RESTART_POLICY_FORCE_APPLY) {
 			applyProfileChanges();
 			return;
 		}
-
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		ProvUI.getDefaultParentShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				if (PlatformUI.getWorkbench().isClosing())
-					return;
 				int retCode = ApplyProfileChangesDialog.promptForRestart(ProvUI.getDefaultParentShell(), restartPolicy == Policy.RESTART_POLICY_PROMPT);
 				if (retCode == ApplyProfileChangesDialog.PROFILE_APPLYCHANGES) {
 					applyProfileChanges();
 				} else if (retCode == ApplyProfileChangesDialog.PROFILE_RESTART) {
-					PlatformUI.getWorkbench().restart();
+					ProvUI.getE4Workbench().restart();
 				}
 			}
 		});

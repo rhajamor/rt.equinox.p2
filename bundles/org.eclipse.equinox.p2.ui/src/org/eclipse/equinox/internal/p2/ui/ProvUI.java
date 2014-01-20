@@ -15,6 +15,7 @@ package org.eclipse.equinox.internal.p2.ui;
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.runtime.*;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.equinox.internal.p2.ui.dialogs.ILayoutConstants;
 import org.eclipse.equinox.internal.p2.ui.query.IUViewQueryContext;
 import org.eclipse.equinox.internal.p2.ui.viewers.IUColumnConfig;
@@ -80,6 +81,8 @@ public class ProvUI {
 	private static Shell defaultParentShell;
 
 	private static IUColumnConfig[] columnConfig;
+
+	private static IWorkbench e4Workbench;
 
 	// These values rely on the command markup in org.eclipse.ui.ide that defines the update commands
 	private static final String UPDATE_MANAGER_FIND_AND_INSTALL = "org.eclipse.ui.update.findAndInstallUpdates"; //$NON-NLS-1$
@@ -165,6 +168,14 @@ public class ProvUI {
 
 	public static void setPreferenceManager(PreferenceManager preferenceManager) {
 		ProvUI.preferenceManager = preferenceManager;
+	}
+
+	public static IWorkbench getE4Workbench() {
+		return e4Workbench;
+	}
+
+	public static void setE4Workbench(IWorkbench e4Workbench) {
+		ProvUI.e4Workbench = e4Workbench;
 	}
 
 	/**

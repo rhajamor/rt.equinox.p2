@@ -13,6 +13,7 @@
  *******************************************************************************/
 package org.eclipse.equinox.internal.p2.ui.dialogs;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import org.eclipse.core.runtime.*;
 import org.eclipse.equinox.internal.p2.ui.*;
@@ -24,8 +25,8 @@ import org.eclipse.equinox.p2.operations.ProfileChangeOperation;
 import org.eclipse.equinox.p2.operations.ProvisioningJob;
 import org.eclipse.equinox.p2.query.IQueryable;
 import org.eclipse.equinox.p2.ui.ProvisioningUI;
+import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
@@ -215,7 +216,19 @@ public abstract class ResolutionResultsWizardPage extends ResolutionStatusPage {
 
 	public boolean performFinish() {
 		if (resolvedOperation.getResolutionResult().getSeverity() != IStatus.ERROR) {
-			getProvisioningUI().schedule(resolvedOperation.getProvisioningJob(null), StatusManager.SHOW | StatusManager.LOG);
+			ProgressMonitorDialog progress = new ProgressMonitorDialog(getShell());
+			try {
+				progress.run(true, true, new IRunnableWithProgress() {
+
+					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+						getProvisioningUI().schedule(resolvedOperation.getProvisioningJob(monitor), StatusManager.SHOW | StatusManager.LOG);
+					}
+				});
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 		return false;

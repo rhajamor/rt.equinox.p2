@@ -12,6 +12,7 @@ package org.eclipse.equinox.internal.p2.ui.sdk.e4;
 
 import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.*;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.equinox.internal.p2.ui.sdk.ProvSDKMessages;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.engine.IProfile;
@@ -152,4 +153,10 @@ abstract class PreloadingRepositoryHandler {
 	 * @return a Shell
 	 */
 	protected abstract Shell getShell();
+
+	/**
+	 * Return the E4Workbench
+	 * @return an E4 Workbench
+	 */
+	protected abstract IWorkbench getE4Workbench();
 }

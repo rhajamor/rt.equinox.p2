@@ -14,7 +14,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.equinox.internal.p2.ui.ProvUI;
 import org.eclipse.equinox.internal.p2.ui.sdk.ProvSDKMessages;
 import org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob;
@@ -31,8 +33,15 @@ public class InstallNewSoftwareHandler extends PreloadingRepositoryHandler {
 	@Named(IServiceConstants.ACTIVE_SHELL)
 	private Shell shell;
 
+	@Inject
+	private MApplication application;
+
+	private IWorkbench e4Workbench;
+
 	@Execute
 	public Object execute() {
+		ProvUI.setE4Workbench(getE4Workbench());
+		ProvUI.setDefaultShell(getShell());
 		return super.execute();
 	}
 
@@ -42,8 +51,14 @@ public class InstallNewSoftwareHandler extends PreloadingRepositoryHandler {
 	}
 
 	protected void doExecute(LoadMetadataRepositoryJob job) {
-		ProvUI.setDefaultShell(getShell());
 		getProvisioningUI().openInstallWizard(null, null, job);
+	}
+
+	@Override
+	protected IWorkbench getE4Workbench() {
+		if (e4Workbench == null && application != null)
+			e4Workbench = (IWorkbench) application.getContext().get(IWorkbench.class.getName());
+		return e4Workbench;
 	}
 
 	protected boolean waitForPreload() {

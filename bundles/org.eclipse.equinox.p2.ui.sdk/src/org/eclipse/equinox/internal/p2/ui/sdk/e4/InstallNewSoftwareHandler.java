@@ -8,11 +8,17 @@
  *  Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.equinox.internal.p2.ui.sdk;
+package org.eclipse.equinox.internal.p2.ui.sdk.e4;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.equinox.internal.p2.ui.ProvUI;
+import org.eclipse.equinox.internal.p2.ui.sdk.ProvSDKMessages;
 import org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * InstallNewSoftwareHandler invokes the install wizard
@@ -21,15 +27,22 @@ import org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob;
  */
 public class InstallNewSoftwareHandler extends PreloadingRepositoryHandler {
 
-	/**
-	 * The constructor.
-	 */
-	public InstallNewSoftwareHandler() {
-		super();
-	}
+	@Inject
+	@Named(IServiceConstants.ACTIVE_SHELL)
+	private Shell shell;
 
 	@Execute
+	public Object execute() {
+		return super.execute();
+	}
+
+	@Override
+	protected Shell getShell() {
+		return shell;
+	}
+
 	protected void doExecute(LoadMetadataRepositoryJob job) {
+		ProvUI.setDefaultShell(getShell());
 		getProvisioningUI().openInstallWizard(null, null, job);
 	}
 

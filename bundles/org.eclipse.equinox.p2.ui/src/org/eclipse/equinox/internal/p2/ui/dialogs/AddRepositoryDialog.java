@@ -15,7 +15,6 @@ import java.net.URISyntaxException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.equinox.internal.p2.repository.helpers.RepositoryHelper;
-import org.eclipse.equinox.internal.p2.ui.IProvHelpContextIds;
 import org.eclipse.equinox.internal.p2.ui.ProvUIMessages;
 import org.eclipse.equinox.p2.ui.Policy;
 import org.eclipse.equinox.p2.ui.ProvisioningUI;
@@ -27,7 +26,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Abstract dialog class for adding repositories of different types. This class
@@ -48,7 +46,7 @@ public abstract class AddRepositoryDialog extends RepositoryNameAndLocationDialo
 	public AddRepositoryDialog(Shell parentShell, ProvisioningUI ui) {
 		super(parentShell, ui);
 		setTitle(ProvUIMessages.AddRepositoryDialog_Title);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentShell, IProvHelpContextIds.ADD_REPOSITORY_DIALOG);
+		//		PlatformUI.getWorkbench().getHelpSystem().setHelp(parentShell, IProvHelpContextIds.ADD_REPOSITORY_DIALOG);
 	}
 
 	protected Control createDialogArea(Composite parent) {

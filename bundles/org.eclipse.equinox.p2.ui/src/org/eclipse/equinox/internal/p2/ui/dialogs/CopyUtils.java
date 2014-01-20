@@ -12,6 +12,7 @@
 package org.eclipse.equinox.internal.p2.ui.dialogs;
 
 import org.eclipse.core.expressions.*;
+import org.eclipse.equinox.internal.p2.ui.ProvUIActivator;
 import org.eclipse.equinox.internal.p2.ui.model.ProvElement;
 import org.eclipse.equinox.internal.p2.ui.viewers.IUDetailsLabelProvider;
 import org.eclipse.equinox.p2.ui.ICopyable;
@@ -19,10 +20,10 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.ISources;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.swt.IFocusService;
+import org.osgi.framework.ServiceReference;
 
 public class CopyUtils {
 	public static final String NEWLINE = System.getProperty("line.separator"); //$NON-NLS-1$
@@ -51,8 +52,10 @@ public class CopyUtils {
 	 * @param control  the control on which to install the menu and handler
 	 */
 	public static void activateCopy(ICopyable copyable, final Control control) {
-		IFocusService fs = (IFocusService) PlatformUI.getWorkbench().getService(IFocusService.class);
-		final IHandlerService hs = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+		ServiceReference<IFocusService> focusRef = ProvUIActivator.getContext().getServiceReference(IFocusService.class);
+		ServiceReference<IHandlerService> handlerRef = ProvUIActivator.getContext().getServiceReference(IHandlerService.class);
+		IFocusService fs = focusRef != null ? ProvUIActivator.getContext().getService(focusRef) : null;
+		final IHandlerService hs = handlerRef != null ? ProvUIActivator.getContext().getService(handlerRef) : null;
 		new CopyPopup(copyable, control);
 		if (fs != null && hs != null) {
 			fs.addFocusTracker(control, CONTROL_ID);

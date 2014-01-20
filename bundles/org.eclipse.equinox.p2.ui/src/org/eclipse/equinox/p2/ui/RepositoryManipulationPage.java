@@ -28,6 +28,7 @@ import org.eclipse.equinox.p2.operations.RepositoryTracker;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.Window;
@@ -42,9 +43,10 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.ui.progress.WorkbenchJob;
+import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 /**
@@ -86,7 +88,8 @@ import org.eclipse.ui.statushandlers.StatusManager;
  * 
  * @since 2.0
  */
-public class RepositoryManipulationPage extends PreferencePage implements IWorkbenchPreferencePage, ICopyable {
+public class RepositoryManipulationPage extends PreferencePage implements IPreferencePage, ICopyable {
+
 	final static String DEFAULT_FILTER_TEXT = ProvUIMessages.RepositoryManipulationPage_DefaultFilterString;
 	private final static int FILTER_DELAY = 200;
 
@@ -107,7 +110,7 @@ public class RepositoryManipulationPage extends PreferencePage implements IWorkb
 	CachedMetadataRepositories input;
 	Text pattern, details;
 	PatternFilter filter;
-	WorkbenchJob filterJob;
+	UIJob filterJob;
 	Button addButton, removeButton, editButton, refreshButton, disableButton, exportButton;
 
 	private Map<MetadataRepositoryElement, URI> originalURICache = new HashMap<MetadataRepositoryElement, URI>(2);
@@ -845,7 +848,7 @@ public class RepositoryManipulationPage extends PreferencePage implements IWorkb
 			filter.setPattern(text);
 		if (filterJob != null)
 			filterJob.cancel();
-		filterJob = new WorkbenchJob("filter job") { //$NON-NLS-1$
+		filterJob = new UIJob("filter job") { //$NON-NLS-1$
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				if (monitor.isCanceled())
 					return Status.CANCEL_STATUS;

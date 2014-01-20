@@ -60,6 +60,12 @@ public class ProvUIImages {
 	public final static String WIZARD_BANNER_UNINSTALL = "wizban/uninstall_wiz.gif"; //$NON-NLS-1$
 	public final static String WIZARD_BANNER_UPDATE = "wizban/update_wiz.gif"; //$NON-NLS-1$
 	public final static String WIZARD_BANNER_REVERT = "wizban/revert_wiz.gif"; //$NON-NLS-1$
+	//shared images
+	public final static String IMG_TOOL_FORWARD_DISABLED = "obj/IMG_TOOL_FORWARD_DISABLED.gif"; //$NON-NLS-1$
+	public final static String IMG_TOOL_FORWARD = "obj/IMG_TOOL_FORWARD.gif"; //$NON-NLS-1$
+	public final static String IMG_TOOL_BACK_DISABLED = "obj/IMG_TOOL_BACK_DISABLED.gif"; //$NON-NLS-1$
+	public final static String IMG_TOOL_BACK = "obj/IMG_TOOL_BACK.gif"; //$NON-NLS-1$
+	public final static String IMG_LCL_VIEW_MENU = "obj/view_menu.gif"; //$NON-NLS-1$
 
 	/**
 	 * Returns the image descriptor for the given image ID. Returns

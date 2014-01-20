@@ -12,6 +12,8 @@
 
 package org.eclipse.equinox.internal.p2.ui;
 
+import org.eclipse.equinox.p2.ui.preferences.ProvPropertyPageManager;
+
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.runtime.*;
@@ -28,8 +30,8 @@ import org.eclipse.equinox.p2.repository.artifact.IArtifactRepositoryManager;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
 import org.eclipse.equinox.p2.ui.Policy;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.jface.preference.PreferenceManager;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -67,6 +69,16 @@ public class ProvUI {
 	 * Indicates that the size is currently unknown
 	 */
 	public static final long SIZE_UNKNOWN = -1L;
+	/**
+	 * Preferences manager·
+	 */
+	private static PreferenceManager preferenceManager;
+
+	/**
+	 * shell passed from an eclipse e4 application
+	 * 
+	 */
+	private static Shell defaultShell;
 
 	private static IUColumnConfig[] columnConfig;
 
@@ -146,12 +158,28 @@ public class ProvUI {
 		return null;
 	}
 
+	public static PreferenceManager getPreferenceManager() {
+		if (preferenceManager == null)
+			preferenceManager = new ProvPropertyPageManager();
+		return preferenceManager;
+	}
+
+	public static void setPreferenceManager(PreferenceManager preferenceManager) {
+		ProvUI.preferenceManager = preferenceManager;
+	}
+
 	/**
 	 * Returns a shell that is appropriate to use as the parent
 	 * for a modal dialog. 
 	 */
 	public static Shell getDefaultParentShell() {
-		return PlatformUI.getWorkbench().getModalDialogShellProvider().getShell();
+		if (defaultShell == null)
+			defaultShell = Display.getCurrent().getActiveShell();
+		return ProvUI.defaultShell;
+	}
+
+	public static void setDefaultShell(Shell defaultShell) {
+		ProvUI.defaultShell = defaultShell;
 	}
 
 	public static void openUpdateManagerInstaller(Event event) {
@@ -280,6 +308,36 @@ public class ProvUI {
 	 */
 	public static IProvisioningEventBus getProvisioningEventBus(ProvisioningSession session) {
 		return (IProvisioningEventBus) session.getProvisioningAgent().getService(IProvisioningEventBus.SERVICE_NAME);
+	}
+
+	/**
+	 * Determines if one control is a child of another.
+	 * 
+	 * @param potentialParent
+	 * @param childToTest
+	 * @return <code>true</code> if the second argument is a child of the first
+	 *         or the same object, <code>false</code> otherwise
+	 */
+	public static boolean isChild(Control potentialParent, Control childToTest) {
+		if (childToTest == null) {
+			return false;
+		}
+
+		if (childToTest == potentialParent) {
+			return true;
+		}
+
+		return isChild(potentialParent, childToTest.getParent());
+	}
+
+	public static boolean isFocusAncestor(Control potentialParent) {
+		if (potentialParent == null)
+			return false;
+		Control focusControl = Display.getCurrent().getFocusControl();
+		if (focusControl == null) {
+			return false;
+		}
+		return isChild(potentialParent, focusControl);
 	}
 
 }

@@ -36,8 +36,6 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 
 /**
  * ProvisioningUI defines the provisioning session, UI policy, and related services for a
@@ -222,14 +220,14 @@ public class ProvisioningUI {
 			InstallWizard wizard = new InstallWizard(this, operation, initialSelections, job);
 			WizardDialog dialog = new ProvisioningWizardDialog(ProvUI.getDefaultParentShell(), wizard);
 			dialog.create();
-			PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.INSTALL_WIZARD);
+			//			PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.INSTALL_WIZARD);
 			return dialog.open();
 		}
 		PreselectedIUInstallWizard wizard = new PreselectedIUInstallWizard(this, operation, initialSelections, job);
 		wizard.setRemediationOperation(remediationOperation);
 		WizardDialog dialog = new ProvisioningWizardDialog(ProvUI.getDefaultParentShell(), wizard);
 		dialog.create();
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.INSTALL_WIZARD);
+		//		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.INSTALL_WIZARD);
 		return dialog.open();
 	}
 
@@ -275,7 +273,7 @@ public class ProvisioningUI {
 		wizard.setSkipSelectionsPage(skipSelectionsPage);
 		WizardDialog dialog = new ProvisioningWizardDialog(ProvUI.getDefaultParentShell(), wizard);
 		dialog.create();
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.UPDATE_WIZARD);
+		//		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.UPDATE_WIZARD);
 		if (wizard.getCurrentStatus().getSeverity() == IStatus.ERROR && remediationOperation != null && remediationOperation.getResolutionResult() != Status.OK_STATUS) {
 			wizard.deselectLockedIUs();
 		}
@@ -297,7 +295,7 @@ public class ProvisioningUI {
 		UninstallWizard wizard = new UninstallWizard(this, operation, initialSelections, job);
 		WizardDialog dialog = new ProvisioningWizardDialog(ProvUI.getDefaultParentShell(), wizard);
 		dialog.create();
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.UNINSTALL_WIZARD);
+		//		PlatformUI.getWorkbench().getHelpSystem().setHelp(dialog.getShell(), IProvHelpContextIds.UNINSTALL_WIZARD);
 		return dialog.open();
 	}
 
@@ -307,7 +305,7 @@ public class ProvisioningUI {
 	 */
 	public void manipulateRepositories(Shell shell) {
 		if (policy.getRepositoryPreferencePageId() != null) {
-			PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(shell, policy.getRepositoryPreferencePageId(), null, null);
+			PreferenceDialog dialog = org.eclipse.equinox.p2.ui.preferences.PreferencesUtil.createPreferenceDialogOn(shell, policy.getRepositoryPreferencePageId(), null, null);
 			dialog.open();
 		} else {
 			TitleAreaDialog dialog = new TitleAreaDialog(shell) {
@@ -316,7 +314,7 @@ public class ProvisioningUI {
 				protected Control createDialogArea(Composite parent) {
 					page = new RepositoryManipulationPage();
 					page.setProvisioningUI(ProvisioningUI.this);
-					page.init(PlatformUI.getWorkbench());
+					page.init(null);
 					page.createControl(parent);
 					this.setTitle(ProvUIMessages.RepositoryManipulationPage_Title);
 					this.setMessage(ProvUIMessages.RepositoryManipulationPage_Description);
